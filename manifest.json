@@ -1,0 +1,20 @@
+{
+    "name": "Mofo HNPWA",
+    "short_name": "Mofo HNPWA",
+    "display": "standalone",
+    "start_url": "/",
+    "theme_color": "#ee8800",
+    "background_color": "#ee8800",
+    "icons": [
+        {
+            "src": "icon192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "icon512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
+}

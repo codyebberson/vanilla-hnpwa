@@ -1,38 +1,29 @@
 
+if (navigator.serviceWorker) {
+    navigator.serviceWorker.register('sw.js').then(function (registration) {
+        console.log('Registered events at scope: ', registration.scope);
+    });
+}
+
 var root = document.getElementById('app');
 var baseUrl = 'https://api.hnpwa.com/v0/';
 var folder = '';
-var item = 1;
+var id = 1;
 
 function loadHash() {
-    folder = 'news';
-    item = 1;
-
-    var hash = window.location.hash.replace('#', '');
-    if (hash) {
-        if (hash.indexOf('/') > 0) {
-            var components = hash.split('/');
-            folder = components[0];
-            item = parseInt(components[1]);
-        } else {
-            folder = hash;
-        }
-    }
-
-    request(baseUrl + folder + '/' + item + '.json', renderData);
+    var q = window.location.hash.replace('#', '').split('/');
+    folder = q[0] || 'news';
+    id = q[1] || 1;
+    request(baseUrl + folder + '/' + id + '.json', renderData);
 }
 
 function renderData(data) {
-    if (Array.isArray(data)) {
-        renderItems(data);
-    } else {
-        renderItem(data);
-    }
+    root.innerHTML = Array.isArray(data) ? renderList(data) : renderItem(data);
     window.scrollTo(0, 0);
 }
 
-function renderItems(items) {
-    var html = '<ol start="' + ((item - 1) * 30 + 1) + '">';
+function renderList(items) {
+    var html = '<ol start="' + ((id - 1) * 30 + 1) + '">';
 
     for (var i = 0; i < items.length; i++) {
         var item = items[i];
@@ -48,14 +39,14 @@ function renderItems(items) {
     html += '</ol>';
 
     if (item > 1) {
-        html += '<a href="#' + folder + '/' + (item - 1) + '">Prev</a> ';
+        html += '<a href="#' + folder + '/' + (id - 1) + '">Prev</a> ';
     }
 
     if (items.length >= 30) {
-        html += '<a href="#' + folder + '/' + (item + 1) + '">Next</a>';
+        html += '<a href="#' + folder + '/' + (id + 1) + '">Next</a>';
     }
 
-    root.innerHTML = html;
+    return html;
 }
 
 function renderItem(item) {
@@ -67,7 +58,7 @@ function renderItem(item) {
     html += '</div>';
     html += renderComments(item.comments);
     html += '</div>';
-    root.innerHTML = html;
+    return html;
 }
 
 function renderComments(comments) {
