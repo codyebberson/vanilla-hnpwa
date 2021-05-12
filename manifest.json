@@ -1,6 +1,6 @@
 {
-    "name": "Mofo HNPWA",
-    "short_name": "Mofo HNPWA",
+    "name": "Vanilla HNPWA",
+    "short_name": "Vanilla HNPWA",
     "display": "standalone",
     "start_url": "/",
     "theme_color": "#ee8800",
